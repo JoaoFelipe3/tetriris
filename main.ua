@@ -73,8 +73,7 @@ PieceOffsets ← ⊏1_0_0_2_0_0_0[
     ⟜⤙⍥(◌MovePiece 1_0) ⊃(⌊÷|°⊸(⊢Gravity)◿)°˜⊟ ⊸Gravity # do the gravity
     ⍥Land ×⊙⊸≍                                          # land if gravity acted and nothing happened
   )
-  # TODO: Fix bug where pressing the hard drop button when the piece is already touching the floor makes you automatically lose.
-  HardDrop ← ⍥Land¬⊸(⊙◌MovePiece 1_0) HandleGravity⍜(⊢Gravity)+₂₀
+  HardDrop ← Land⍢(∘|MovePiece 1_0)
 
   DrawBoard ← (
     ↘3Board                                         # drop the 3 invisible rows
