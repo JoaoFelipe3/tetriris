@@ -6,4 +6,4 @@ Tetris, made with the [Iris](https://github.com/Marcos-cat/iris) library for Uiu
 
 To run this, install the latest development version of Uiua, `git clone` this repo, and run it with `uiua run`.
 
-Gameplay-wise, this supports SRS, although there is still a bug with the hard drop. If you can fix this and any other bugs that may exist, please PR!
+Gameplay-wise, this supports SRS. If you can fix any bugs that may exist, please PR!
