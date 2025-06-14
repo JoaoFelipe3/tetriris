@@ -4,9 +4,15 @@ I ~ "git: github.com/Marcos-cat/iris"
 I~Open 160_320 "TetrIris"
 
 ◌°img &frab "block.png"
-Cyan_Blue_Orange_Yellow_Green_Magenta_Red
-≡⌟(I~Texture~LoadImage ≡₁⌞⬚1×)
-BlockTextures ← # colored blocks loaded as textures
+I~Texture~LoadImage
+BlockTexture ← # block loaded as texture
+BlockColors  ← Cyan_Blue_Orange_Yellow_Red_Magenta_Green
+
+⍚(♭+⌞15_16×16⇡)19_9
+≡₁⌟(/↥≡◇˜∊)⇡320_160
+⨬0 1/8
+I~Texture~LoadImage
+Grid ←
 
 ┌─╴Piece
   # Types are, in order: I, J, L, O, S, T and Z
@@ -73,14 +79,22 @@ PieceOffsets ← ⊏1_0_0_2_0_0_0[
     ⟜⤙⍥(◌MovePiece 1_0) ⊃(⌊÷|°⊸(⊢Gravity)◿)°˜⊟ ⊸Gravity # do the gravity
     ⍥Land ×⊙⊸≍                                          # land if gravity acted and nothing happened
   )
-  HardDrop ← Land⍢(∘|MovePiece 1_0)
+  HardDrop ← Land⍥(◌MovePiece 1_0)∞
 
   DrawBoard ← (
-    ↘3Board                                         # drop the 3 invisible rows
-    ×16°⊡⍉                                          # coords
-    ⨬◌(I~Draw~Texture⊙16_16 ⊡⊙BlockTextures-1)˜⊃±⊙∘ # drawing
+    ↘3Board                                                      # drop the 3 invisible rows
+    ×16°⊡⍉                                                       # coords
+    ⨬◌(⬚(⊡-1⊙BlockColors)I~Draw~Texture⊙BlockTexture⊙16_16)˜⊃±⊙∘ # drawing
   )
-  DrawWithPiece ← DrawBoard°1 PutPieceInBoard
+  DrawWithPiece ← DrawBoard °1PutPieceInBoard
+  DrawGhost ← (
+    ⍥(◌MovePiece 1_0)∞                  # move piece to landing position
+    ±Board °1PutPieceInBoard ⍜Board≡₀⋅0 # make fake board
+    # DrawBoard but ghost
+    ↘3
+    ×16°⊡⍉
+    ˜⨬◌⬚(↯3 1/2|I~Draw~Texture BlockTexture 16_16)
+  )
 
   New ← PullFromBag {
     ↯23_10 0      # 20×10 board with 3 invisible rows on top
@@ -104,7 +118,8 @@ I~Loop!(
   I~Key~Pressed‼@V(Game~Rotate 2)                    # 180° rotation
   Game~HandleGravity
 
-  I~Draw~Background Black
+  I~Draw~Texture Grid 160_320 0_0
+  ⊸Game~DrawGhost
   ⊸Game~DrawWithPiece
 )
 
